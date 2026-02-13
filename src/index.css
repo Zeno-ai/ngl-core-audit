@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --ngl-gradient: linear-gradient(180deg, #FF1F7C 0%, #FF9B42 100%);
+  --ngl-black: #000000;
+  --ngl-white: #ffffff;
+  --ngl-gray-card: rgba(255, 255, 255, 0.7);
+  --ngl-gray-input: #f0f0f0;
+
+  font-family: 'Outfit', system-ui, -apple-system, sans-serif;
+  line-height: normal;
+  font-weight: 400;
+
+  color-scheme: dark;
+  background: var(--ngl-gradient);
+  color: #000;
+
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  background: var(--ngl-gradient);
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.ngl-button {
+  background: var(--ngl-black);
+  color: white;
+  border: none;
+  padding: 16px 20px;
+  border-radius: 40px;
+  font-size: 1.2rem;
+  font-weight: 800;
+  cursor: pointer;
+  width: 100%;
+  max-width: 380px;
+  transition: all 0.15s cubic-bezier(0.12, 0, 0.39, 0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.ngl-button:active {
+  transform: scale(0.96);
+  opacity: 0.9;
+}
+
+.ngl-card {
+  background: var(--ngl-white);
+  border-radius: 40px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  width: 100%;
+}
+
+input,
+textarea {
+  user-select: text;
+}
