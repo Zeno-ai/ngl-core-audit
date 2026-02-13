@@ -126,4 +126,10 @@ Bu yazılım **SADECE EĞİTİM AMAÇLIDIR.**
 
 ---
 
-*Geliştirici: [BugraPC]*
+## 📄 Lisans
+
+Bu proje MIT Lisansı altında lisanslanmıştır - detaylar için [LICENSE](LICENSE) dosyasına bakınız.
+
+---
+
+*Geliştirici: Bugra Akdemir*
