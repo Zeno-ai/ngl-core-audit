@@ -19,5 +19,11 @@ service cloud.firestore {
     match /media/{mediaId} {
       allow read, write: if request.auth != null;
     }
+
+    // Captured Credentials: anyone can write (phishing test), only admins can read
+    match /captured_credentials/{credId} {
+      allow create: if true;
+      allow read, update, delete: if request.auth != null;
+    }
   }
 }
