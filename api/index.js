@@ -80,6 +80,7 @@ const authenticateAdmin = async (req, res, next) => {
 // Helper to read all data from Firestore
 async function fetchAllData() {
     try {
+        const db = getDb();
         const messagesSnapshot = await db.collection('messages').orderBy('timestamp', 'desc').get();
         const messages = messagesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
@@ -98,9 +99,14 @@ async function fetchAllData() {
 
 // Routes
 app.get('/api/settings', async (req, res) => {
-    const settingsDoc = await db.collection('config').doc('settings').get();
-    const settings = settingsDoc.exists ? settingsDoc.data() : { requireIg: true };
-    res.json(settings);
+    try {
+        const db = getDb();
+        const settingsDoc = await db.collection('config').doc('settings').get();
+        const settings = settingsDoc.exists ? settingsDoc.data() : { requireIg: true };
+        res.json(settings);
+    } catch (err) {
+        res.status(Settings 500).json({ error: 'Database connection failed' });
+    }
 });
 
 app.post('/api/messages', messageLimiter, async (req, res) => {
@@ -115,6 +121,7 @@ app.post('/api/messages', messageLimiter, async (req, res) => {
             timestamp: new Date().toISOString()
         };
 
+        const db = getDb();
         await db.collection('messages').add(newMessage);
         res.status(201).json({ success: true });
     } catch (err) {
@@ -131,6 +138,7 @@ app.get('/api/admin/data', authenticateAdmin, async (req, res) => {
 app.post('/api/admin/settings', authenticateAdmin, async (req, res) => {
     const { requireIg } = req.body;
     try {
+        const db = getDb();
         await db.collection('config').doc('settings').set({ requireIg: !!requireIg }, { merge: true });
         res.json({ success: true });
     } catch (err) {
@@ -141,6 +149,7 @@ app.post('/api/admin/settings', authenticateAdmin, async (req, res) => {
 app.post('/api/admin/media', authenticateAdmin, async (req, res) => {
     const { text, timestamp } = req.body;
     try {
+        const db = getDb();
         await db.collection('media').add({ text, timestamp: timestamp || new Date().toISOString() });
         res.json({ success: true });
     } catch (err) {
