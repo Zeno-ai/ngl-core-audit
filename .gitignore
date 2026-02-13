@@ -12,6 +12,9 @@ node_modules/
 .env.*.local
 *.json.tmp
 *.json.bak
+VERCEL_ENV_VALUE.txt
+hata.cvs
+*-firebase-adminsdk-*.json
 
 # Logs and Temp
 logs
